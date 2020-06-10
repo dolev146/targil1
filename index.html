@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        input[type="number"] {
+            width: 100%;
+        }
+
+        .sliders {
+            box-sizing: border-box;
+            width: 90%;
+            border-radius: 15px;
+            margin-top: 15px;
+            padding: 10px;
+        }
+
+        body {
+            display: flex;
+        }
+
+        #clean {
+            display: block;
+            width: 400px;
+        }
+        
+        #right,
+        #left {
+            margin: 25px;
+            width: 50%;
+       
+        }
+
+        #radius {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="left">
+        <div class="sliders">
+            <h1 style="color: chocolate;">Input the radius value and get the volume of the sphere.</h1>
+            <form>
+                <label for="radius">please insert the radius number (0 - 200 max )</label><br />
+                <input type="number" id="radius" min="0" max="200" title="radius number" /><br />
+            </form>
+            <br>
+            <label for="volume">Volume </label>
+            <span id="volume"
+                style="  display: inline-block; width: 100%; height: 24px; border: black 5px solid ;"></span>
+            <button style="margin-top: 10px;">Calculate</button>
+        </div>
+    </div>
+
+
+    <div id="right">
+        <canvas id="canvas" width="400px" height="400px" style="border: 5px solid #000; border-radius: 50%;">
+        </canvas>
+        <button id="clean">clean</button>
+    </div>
+    <script>
+        var btnCalc = document.querySelector("#left > div > button")
+        var canvas = document.querySelector("#canvas");
+        var ctx = canvas.getContext("2d");
+        btnCalc.onclick = function () {
+            var radius = document.querySelector("#radius")
+
+
+            // using a variable
+
+            var RV = parseInt(radius.value)
+
+            if (RV === NaN) {
+                alert("no value was inserted")
+            } else if (RV >= 200) {
+                window.confirm("you entered a bigger number than the maximum number 400px")
+                radius.focus()
+            }
+            else if (RV < 200 && RV > 0) {
+
+                var output = 4 / 3 * Math.PI * RV * RV * RV
+                var volume = document.querySelector("#volume")
+                volume.textContent = output
+
+
+
+                var posX = canvas.width / 2;
+                var posY = canvas.height / 2;
+                ctx.beginPath();
+                ctx.arc(posX, posY, RV, 0, 2 * Math.PI);
+                ctx.closePath();
+                ctx.stroke();
+
+            }
+            else if (RV <= 0) {
+                window.confirm("negative or 0 input will not be viewed")
+                radius.focus()
+            }
+
+        }
+        var btnClean = document.querySelector("#clean")
+        btnClean.onclick = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    </script>
+</body>
+
+</html>
